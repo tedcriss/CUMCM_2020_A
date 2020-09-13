@@ -26,6 +26,7 @@ class minTemp3(ea.Problem): # 继承Problem父类
 
     def aimFunc(self, pop): # 目标函数
         Vars = pop.Phen # 得到决策变量矩阵
+        tau=47.1
         v = Vars[:, [0]]/60
         t1 = Vars[:, [1]]
         t2 = Vars[:, [2]]
@@ -35,7 +36,7 @@ class minTemp3(ea.Problem): # 继承Problem父类
         judgeArray=numpy.zeros([Vars.shape[0],1],dtype=numpy.float64)    # 这里True表示可行，False表示不可行
         # todo：将judgeFunction返回的布尔值换成负的，约负代表约合格，约正代表约不合格
         for _ in range(Vars.shape[0]):
-            judgeArray[_,0],objv[_,0]=judgeFunction(TtF,v[_],t1[_],t2[_],t3[_],t4[_])[0:2]
+            judgeArray[_,0],objv[_,0]=judgeFunction(TtF,v[_],t1[_],t2[_],t3[_],t4[_],tau)[0:2]
         # fixme：上面可以并行化
         # judgeArray=judgeArray
         pop.ObjV=objv
@@ -66,6 +67,7 @@ class minTemp4(ea.Problem): # 继承Problem父类
 
     def aimFunc(self, pop): # 目标函数
         Vars = pop.Phen # 得到决策变量矩阵
+        tau=47.1
         v = Vars[:, [0]]/60
         t1 = Vars[:, [1]]
         t2 = Vars[:, [2]]
@@ -75,7 +77,7 @@ class minTemp4(ea.Problem): # 继承Problem父类
         judgeArray=numpy.zeros([Vars.shape[0],1],dtype=numpy.float64)    # 这里True表示可行，False表示不可行
         # todo：将judgeFunction返回的布尔值换成负的，约负代表约合格，约正代表约不合格
         for _ in range(Vars.shape[0]):
-            judgeArray[_,0],objv[_,2],objv[_,1],objv[_,0]=judgeFunction(TtF,v[_],t1[_],t2[_],t3[_],t4[_])[0:4]
+            judgeArray[_,0],objv[_,2],objv[_,1],objv[_,0]=judgeFunction(TtF,v[_],t1[_],t2[_],t3[_],t4[_],tau)[0:4]
         # fixme：上面可以并行化
         # judgeArray=judgeArray
         pop.ObjV=objv

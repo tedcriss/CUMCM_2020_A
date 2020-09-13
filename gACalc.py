@@ -43,7 +43,7 @@ if __name__ == '__main__':
     t4_best=var_trace[best_gen,4]
     fullLength = 25 + 25 + 11 * 30.5 + 10 * 5   # 传送带总长度
     tNp = numpy.arange(0, fullLength / v_best, 0.1)   # 时间矩阵
-    TtNp = TtF(tNp, v_best, 45, t1_best, t2_best, t3_best, t4_best)  # 最优解的T(t)曲线
+    TtNp = TtF(tNp, v_best, 47.1, t1_best, t2_best, t3_best, t4_best)  # 最优解的T(t)曲线
     print("最优解检验结果：",judgeTempgA(tNp,TtNp))
 
 

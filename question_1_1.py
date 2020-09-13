@@ -53,10 +53,10 @@ deltaList=[]     # 误差矩阵
 minChar=None    # 最小误差值
 minTtNp=None    # 最小误差对应T(t)
 minTau=None     # 最小误差对应tau值
-useTau=450/10     # 从另一处得到的合适的tau
+useTau=471/10     # 从另一处得到的合适的tau
 useChar=None    # 使用tau的误差
 useTtNp=None    # 使用tau求出的T(t)
-for _ in range(300,1200):    # 遍历所有tau
+for _ in range(250,1100):    # 遍历所有tau
     tauNp=_/10    # 修改tau为分式，方便计算
     # 提取条件：Tat.args[方程号][1：条件].args[第几个条件]._args[0：t，1：数值]
     # 提取公式：Tat.args[方程号][0：公式].as_poly().coeffs() -> 其中，0为a，1为b
@@ -100,8 +100,8 @@ plt.text(useTau,useChar,"use $\\tau$="+str(useTau))
 plt.scatter(minTau,minChar)
 plt.scatter(useTau,useChar)
 plt.xlabel("$\\tau$")
-plt.ylabel("char")
-plt.title("char")
+plt.ylabel("$\\delta$")
+plt.title("$\\delta$")
 # plt.savefig("figure2.png",dpi=400)
 
 TatNp=TatF(tNp,vNp,tauNp,t1Np,t2Np,t3Np,t4Np)

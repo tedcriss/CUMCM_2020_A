@@ -23,6 +23,7 @@ if __name__ == '__main__':
     """================================算法参数设置============================="""
     myAlgorithm = ea.moea_NSGA2_templet(problem, population) # 实例化一个算法模板对象
     myAlgorithm.MAXGEN = 400 # 最大进化代数
+    myAlgorithm.mutOper.Pm = 0.5  # 变异概率
     myAlgorithm.drawing = 2 # 设置绘图方式（0：不绘图；1：绘制结果图；2：绘制目标空间过程动画；3：绘制决策空间过程动画）
     """===========================调用算法模板进行种群进化======================="""
     NDSet = myAlgorithm.run() # 执行算法模板
@@ -45,7 +46,7 @@ if __name__ == '__main__':
     t4_best=best_Solution[4]
     fullLength = 25 + 25 + 11 * 30.5 + 10 * 5   # 传送带总长度
     tNp = numpy.arange(0, fullLength / v_best, 0.1)   # 时间矩阵
-    TtNp = TtF(tNp, v_best, 45, t1_best, t2_best, t3_best, t4_best)  # 最优解的T(t)曲线
+    TtNp = TtF(tNp, v_best, 47.1, t1_best, t2_best, t3_best, t4_best)  # 最优解的T(t)曲线
     print("最优解检验结果：",judgeTempgA(tNp,TtNp))
 
     firstLine=["时间","温度"]

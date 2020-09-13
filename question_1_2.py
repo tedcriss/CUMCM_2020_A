@@ -30,9 +30,11 @@ coolLength=ovenLength * 2               # 实际冷却区缩减
 timeIntv=0.5                            # 计算时间间隔
 
 validList=[]
-minTau=None
+minTau=0
 # validTtList=[]
+toTau=59.1
 minTauTtNp=None
+tauDelta=None
 allTau=[]
 maxTt=[]
 for _ in range(40,1000):
@@ -51,8 +53,9 @@ for _ in range(40,1000):
     maxTt.append(TtNp.max())
     if (judgeTempgA(tNp,TtNp)[0]<=0):
         validList.append(tauNp)
-        if (minTau==None) or (tauNp<minTau):
-            minTau=tauNp
+        if (tauDelta==None) or (abs(tauNp-toTau)<tauDelta):
+            tauDelta=abs(tauNp-toTau)
+            minTau = tauNp
             minTauTtNp=TtNp
         print("tau合格","，TtNp.max()=",TtNp.max())
     else:
@@ -85,6 +88,7 @@ if len(validList)>0:
         data+=resultNp.tolist()
         csvWri.writerows(data)
 
+    print("检验值：",judgeTempgA(tNp,minTauTtNp))
     plt.figure(1)
     plt.plot(tNp,minTauTtNp)
     plt.text(tNp[numpy.where(minTauTtNp == minTauTtNp.max())[0][0]], minTauTtNp.max(), "maximum=" + str(round(minTauTtNp.max(), 2)))

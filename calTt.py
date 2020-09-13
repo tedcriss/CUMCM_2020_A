@@ -23,7 +23,10 @@ airIntAdj=[sympy.Rational(3,2), sympy.Rational(2,10), sympy.Rational(4,10), symp
 ovenLength=sympy.Rational(305,10)#cm
 airLength=sympy.S(5)#cm
 dis2Oven=sympy.S(25)#cm
-coolLength=ovenLength * 2
+coolLength=ovenLength * 2+30   # 冷却区非25度的范围，冷却区包括了最后两个小温区以及炉后区域，
+# 比如coolLength=10，即表示冷却区边界向内10cm为非25度区域，该值最大为ovenLength * 2+30，
+# 若大于上值，则需要调整下面addOvenLength使炉子长度增长以满足要求。
+addOvenLength=5      # 默认为0，这个参数修改了炉子的长度
 
 
 ##################转换点#######################
@@ -37,7 +40,7 @@ p6=[p5[0] - airIntAdj[2]/2 * k + ovenLength - airIntAdj[3] / 2 * k, ovenTemp[3]]
 p7=[p6[0] + airLength + airIntAdj[3] * k, ovenTemp[4]]
 p8=[p7[0] - airIntAdj[3]/2 * k + ovenLength * 2 + airLength - airIntAdj[4] / 2 * k, ovenTemp[4]]
 p9=[p8[0] + airLength + airIntAdj[4] * k + coolLength, ovenTemp[5]]
-p10=[p9[0] - airIntAdj[4]/2 * k + ovenLength * 2 + airLength + dis2Oven - coolLength, ovenTemp[5]]
+p10=[p9[0] - airIntAdj[4]/2 * k + ovenLength * 2 + airLength + dis2Oven - coolLength + addOvenLength, ovenTemp[5]]
 # changeIndex=[]#切换点索引
 
 #######################计算Ta(t)######################
@@ -152,27 +155,32 @@ TtF=sympy.lambdify([t,v,tau,T1,T2,T3,T4],Tt,"numpy")
 
 
 if __name__=="__main__":
-    sympy.print_latex(Tt)
+    sympy.print_latex(Tat.subs({v:sympy.Rational(7,6),T1:175,T2:195,T3:235,T4:255}))   # 将T(t)使用latex表示
     import matplotlib.pyplot as plt
+    # plt.switch_backend('FltkAgg')
     fullLength=25+25+11*30.5+10*5
     # [ 79.92383957, 166.75268173, 197.07910538, 225 , 258.30924988]
 
-    vNp=78/60
+    vNp=70/60
     tNp=numpy.arange(0,fullLength/vNp,0.1)
-    tauNp=45
-    t1Np=173
-    t2Np=198
-    t3Np=230
-    t4Np=257
+    tauNp=47.1
+    t1Np=175
+    t2Np=195
+    t3Np=235
+    t4Np=255
 
+    TatNp=TatF(tNp,vNp,tauNp,t1Np,t2Np,t3Np,t4Np)
     TtNp=TtF(tNp,vNp,tauNp,t1Np,t2Np,t3Np,t4Np)
     # print(judgeTempgA(tNp,TtNp))
     print(judgeFunction(TtF,vNp,t1Np,t2Np,t3Np,t4Np))
     # 分别为[是否合格，过217面积，最大斜率，峰值温度，150°C~190°C时间，大于217°C时间]
-    plt.plot(tNp,TtNp)
-    plt.axhline(y=217, ls=":")  # 添加水平直线
-    plt.axvline(x=tNp[TtNp==TtNp.max()][0],ls=":")
-    plt.text(1,217+1,"T=217°C")
-    plt.xlabel("time (s)")
-    plt.ylabel("temperature (°C)")
-    plt.title("Best Solution of 3rd Question")
+    # plt.plot(tNp,TtNp,label="$T(t)$")
+    plt.plot(tNp,TatNp,label="$T_a(t)$")
+    plt.legend(loc=1)
+    # plt.axhline(y=217, ls=":")  # 添加水平直线
+    # plt.axvline(x=tNp[TtNp==TtNp.max()][0],ls=":")
+    # plt.text(1,217+1,"T=217°C")
+    # plt.xlabel("time (s)")
+    # plt.ylabel("temperature (°C)")
+    # plt.title("Best Solution of 3rd Question")
+    plt.show()

@@ -24,7 +24,7 @@ fullLength = 25 + 25 + 11 * 30.5 + 10 * 5
 
 vNp = 78 / 60
 tNp = numpy.arange(0, fullLength / vNp, 0.1)
-tauNp = 45
+tauNp = 47.1
 t1Np = 182
 t2Np = 203
 t3Np = 237
@@ -60,10 +60,10 @@ if len(validList)>0:
 
     allVNp=numpy.array(allV,dtype=numpy.float32)
     allJudgeNp=numpy.array(allJudge,dtype=numpy.float32)
-    if False:
+    if True:
         fig1=plt.figure(1,dpi=90)
         ax1=fig1.add_subplot(1,1,1)
-        ax1.plot(allVNp,allJudgeNp[:,0],label = 'Valid')
+        ax1.scatter(allVNp,allJudgeNp[:,0]<=0,label = 'Valid',color="orange")
         ax1.set_xlabel("Velocity (cm/s)")
         ax1.set_ylabel("Valid")
         ax1.legend(loc=2)

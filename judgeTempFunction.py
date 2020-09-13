@@ -84,7 +84,7 @@ def judgeTempgA(tNp,TtNp):
     return cvValue(numpy.abs(diff).max(),TtNp.max(),upTime_2,upTime_1),area,numpy.abs(diff).max(),TtNp.max(),upTime_1,upTime_2
     # 分别为[是否合格（负为合格，正为不合格），过217面积，最大斜率，峰值温度，150°C~190°C时间，大于217°C时间]
 
-def judgeFunction(TtF,v=7/6,t1=175,t2=195,t3=235,t4=255,tau=45,timeIntv=0.1):
+def judgeFunction(TtF,v=7/6,t1=175,t2=195,t3=235,t4=255,tau=47.1,timeIntv=0.1):
     """计算输入参数[是否合格（负为合格，正为不合格），过217面积，峰值对称方差，峰值两边点数差]"""
     fullLength = 25 + 25 + 11 * 30.5 + 10 * 5
     tNp = numpy.arange(0, fullLength / v, timeIntv)
@@ -116,7 +116,6 @@ def judgeFunction(TtF,v=7/6,t1=175,t2=195,t3=235,t4=255,tau=45,timeIntv=0.1):
     leftIndex=validSection_2[validSection_2 < maxValueIndex]
     # print("leftIndex",leftIndex)
     minPeakIndex = min(rightIndex.size, leftIndex.size)
-    print("rightIndex.size, leftIndex.size",rightIndex.size, leftIndex.size)
     # print("minPeakIndex",minPeakIndex)
 
     sigma=numpy.sum((TtNp[rightIndex[:minPeakIndex]]-TtNp[leftIndex[:-minPeakIndex-1:-1]])**2)/minPeakIndex
@@ -125,5 +124,7 @@ def judgeFunction(TtF,v=7/6,t1=175,t2=195,t3=235,t4=255,tau=45,timeIntv=0.1):
     #########下为个数差
     lenDiff=abs(rightIndex.size-leftIndex.size)
 
-    return cvValue(numpy.abs(diff).max(), TtNp.max(), upTime_2, upTime_1), area,sigma,lenDiff
+    cv=cvValue(numpy.abs(diff).max(), TtNp.max(), upTime_2, upTime_1)
+    print("两边点数差:",abs(rightIndex.size-leftIndex.size),"，约束值：",cv,"，过217面积：",area)
+    return cv,area,sigma,lenDiff
     # [是否合格（负为合格，正为不合格），过217面积，峰值对称方差，峰值两边点数差]
