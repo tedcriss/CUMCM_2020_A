@@ -129,21 +129,21 @@ if len(validList)>0:
 
 
     heatNum=3
-    heatTime=dis2Oven+(heatNum-1)*ovenLength+(heatNum-1)*airLength+sympy.Rational(1,2)*ovenLength
+    heatTime=((dis2Oven+(heatNum-1)*ovenLength+(heatNum-1)*airLength+sympy.Rational(1,2)*ovenLength))/vNp
     heatIndex=int(round(heatTime/timeIntv))
     print("小温区",str(heatNum),"中点的温度=",str(minTauTtNp[heatIndex]),"°C")
 
     heatNum=6
-    heatTime=dis2Oven+(heatNum-1)*ovenLength+(heatNum-1)*airLength+sympy.Rational(1,2)*ovenLength
+    heatTime=(dis2Oven+(heatNum-1)*ovenLength+(heatNum-1)*airLength+sympy.Rational(1,2)*ovenLength)/vNp
     heatIndex=int(round(heatTime/timeIntv))
     print("小温区",str(heatNum),"中点的温度=",str(minTauTtNp[heatIndex]),"°C")
 
     heatNum=7
-    heatTime=dis2Oven+(heatNum-1)*ovenLength+(heatNum-1)*airLength+sympy.Rational(1,2)*ovenLength
+    heatTime=(dis2Oven+(heatNum-1)*ovenLength+(heatNum-1)*airLength+sympy.Rational(1,2)*ovenLength)/vNp
     heatIndex=int(round(heatTime/timeIntv))
     print("小温区",str(heatNum),"中点的温度=",str(minTauTtNp[heatIndex]),"°C")
 
-    heatTime=dis2Oven+(8)*ovenLength+(8-1)*airLength+sympy.Rational(1,2)*ovenLength
+    heatTime=(dis2Oven+(8)*ovenLength+(8-1)*airLength+sympy.Rational(1,2)*ovenLength)/vNp
     heatIndex=int(round(heatTime/timeIntv))
     print("小温区",str(8),"结束的温度=",str(minTauTtNp[heatIndex]),"°C")
 else:
